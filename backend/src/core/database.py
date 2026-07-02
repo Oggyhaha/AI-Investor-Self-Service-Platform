@@ -28,16 +28,37 @@ convention = {
     "pk": "pk_%(table_name)s",
 }
 
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+
+def strip_unsupported_params(url: str) -> str:
+    """Strip parameters not supported by asyncpg dialect, such as channel_binding and sslmode."""
+    if not url.startswith("postgresql"):
+        return url
+    try:
+        parsed = urlparse(url)
+        query_params = parse_qs(parsed.query)
+        query_params.pop("channel_binding", None)
+        if "sslmode" in query_params:
+            sslmode = query_params.pop("sslmode")[0]
+            if sslmode in ["require", "verify-ca", "verify-full"]:
+                query_params["ssl"] = ["require"]
+        new_query = urlencode(query_params, doseq=True)
+        return urlunparse(parsed._replace(query=new_query))
+    except Exception:
+        return url
+
+cleaned_db_url = strip_unsupported_params(settings.database_url)
+
 # Build engine kwargs based on the database driver
 engine_kwargs: dict = {
     "echo": settings.is_development,
     "future": True,
 }
 
-if settings.database_url.startswith("sqlite"):
+if cleaned_db_url.startswith("sqlite"):
     engine_kwargs["connect_args"] = {"check_same_thread": False}
 
-engine = create_async_engine(settings.database_url, **engine_kwargs)
+engine = create_async_engine(cleaned_db_url, **engine_kwargs)
 
 async_session_factory = async_sessionmaker(
     bind=engine,

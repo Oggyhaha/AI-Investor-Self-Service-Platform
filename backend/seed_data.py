@@ -21,10 +21,26 @@ from src.statements.models import Statement
 async def ensure_database_exists():
     from src.core.config import get_settings
     from sqlalchemy.ext.asyncio import create_async_engine
+    from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
     
     settings = get_settings()
     db_url = settings.database_url
     
+    # Clean the connection string to remove unsupported parameters
+    if db_url.startswith("postgresql"):
+        try:
+            parsed = urlparse(db_url)
+            query_params = parse_qs(parsed.query)
+            query_params.pop("channel_binding", None)
+            if "sslmode" in query_params:
+                sslmode = query_params.pop("sslmode")[0]
+                if sslmode in ["require", "verify-ca", "verify-full"]:
+                    query_params["ssl"] = ["require"]
+            new_query = urlencode(query_params, doseq=True)
+            db_url = urlunparse(parsed._replace(query=new_query))
+        except Exception:
+            pass
+
     # Only need to create database if it is PostgreSQL
     if db_url.startswith("postgresql"):
         # Split database name from base URI
