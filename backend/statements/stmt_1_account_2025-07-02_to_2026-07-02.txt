@@ -1,0 +1,4 @@
+ABC Mutual Fund Statement
+Type: account
+Period: 2025-07-02 to 2026-07-02
+Status: Generated Mock File

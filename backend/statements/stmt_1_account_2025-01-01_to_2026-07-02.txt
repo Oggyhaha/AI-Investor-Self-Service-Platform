@@ -1,0 +1,11 @@
+==================================================
+         ABC Mutual Fund Statement                
+==================================================
+Statement Type: ACCOUNT
+Period: 2025-01-01 to 2026-07-02
+Generated at: 2026-07-02T14:42:41.487709
+Investor ID Ref: 1
+==================================================
+This is a mocked investment statement document.   
+For actual investments, please contact support.   
+==================================================

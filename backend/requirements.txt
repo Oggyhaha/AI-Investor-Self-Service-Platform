@@ -1,0 +1,14 @@
+fastapi>=0.115.0
+uvicorn[standard]
+sqlalchemy[asyncio]>=2.0
+aiosqlite
+alembic
+pydantic>=2.0
+pydantic-settings
+pyjwt[crypto]
+passlib[bcrypt]
+python-dotenv
+python-multipart
+httpx
+google-genai
+asyncpg
