@@ -12,3 +12,4 @@ python-multipart
 httpx
 google-genai
 asyncpg
+email-validator
