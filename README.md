@@ -2,20 +2,16 @@
 
 > An intelligent conversational platform for ABC Mutual Fund that enables investors to independently manage routine servicing requests through AI-powered conversations while seamlessly escalating complex cases to human advisors.
 
-![Platform Status](https://img.shields.io/badge/status-MVP-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-
 ---
 
-## 🎯 Problem Statement
+## 👥 Team & Submission Information
 
-Mutual fund companies receive a high volume of repetitive support requests:
-- **SIP Mandate Failures** — Why did my SIP fail? What's the mandate status?
-- **Statements** — Download account/transaction/capital gains statements
-- **KYC Updates** — Check KYC status, request re-verification
-- **Nominee Changes** — View/update nominee details
-
-AURA is an AI-powered conversational platform that automates these routine servicing journeys, reducing manual support volume, while maintaining a robust escalation gateway for human advisor intervention.
+* **Team Name**: AURA
+* **Team Members**: 
+  1. **Kartik Rana**
+  2. **Amit Thakor**
+* **College Name**: Sardar Patel College of Engineering and Technology
+* **Submission Deadline**: Friday, 03-Jul-2026, 12:00hrs IST
 
 ---
 
@@ -171,6 +167,31 @@ Use the following credentials to evaluate the platform:
 | **Investor** | Phone: `9876543211` (Priya Mehta) | OTP: `123456` |
 | **Advisor** | Email: `sneha@abcmf.com` | Password: `advisor123` |
 | **Admin** | Email: `vikram@abcmf.com` | Password: `admin123` |
+
+---
+
+## 📋 Key Assumptions & Design Decisions
+
+1. **Human-in-the-Loop Fallback**: AI handles 100% of routine queries, but escalates mandate modification & document verification issues to advisors.
+2. **Mock OTP Authentication**: OTP verification is simulated using the standard code `123456` to allow frictionless evaluation by judges.
+3. **Database Migration Agility**: Designed with SQLAlchemy 2.0 and repository abstraction, allowing instant swap from SQLite (local) to PostgreSQL (production) with zero code modifications.
+4. **Statement Generation**: Generates mock transactional CAS statements and capital gains PDFs saved on-the-fly.
+
+---
+
+## 🛠️ AI Tools Disclosure
+
+As permitted by the hackathon rules, the following AI tools were utilized to accelerate development:
+* **Antigravity AI Agent Coding Assistant**: Code generation, repository design pattern compilation, database integration, and UI styling polish.
+* **Google Gemini 2.5 Flash**: Orchestrates natural language understanding, function calling tool triggers, and conversation summary generations.
+
+---
+
+## 🚀 Known Limitations & Future Roadmap
+
+* **OTP SMS Gateway**: In production, integrate an SMS gateway provider (e.g. Twilio or Gupshup) for real OTP delivery.
+* **Real Payment Gateway**: Integrate UPI/NetBanking APIs (Razorpay/BillDesk) for live transaction processing.
+* **Vector Search (RAG)**: Add a vector database (e.g. PGVector) to index mutual fund scheme document PDFs for automated fund recommendations.
 
 ---
 
