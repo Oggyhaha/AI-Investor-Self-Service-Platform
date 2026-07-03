@@ -134,6 +134,33 @@ The script will automatically set up the Postgres database, run all schema creat
 
 ---
 
+## 🌐 Cloud Deployment Setup (Production)
+
+The platform is configured for instant cloud deployment:
+
+### 1. Database (Neon or Supabase)
+- Set up a serverless PostgreSQL instance.
+- Append `?ssl=require` to your PostgreSQL connection string for secure connection configurations.
+
+### 2. Backend (Render Web Service)
+- Set **Root Directory** to `backend`.
+- **Build Command**: `pip install -r requirements.txt`
+- **Start Command**: `uvicorn src.main:app --host 0.0.0.0 --port 8000`
+- Set the following environment variables:
+  * `APP_DATABASE_URL`: `postgresql+asyncpg://...` (your PostgreSQL connection string)
+  * `APP_GEMINI_API_KEY`: Your Google AI Studio API key
+  * `APP_SECRET_KEY`: A secure session hash string
+  * `APP_ENVIRONMENT`: `production`
+
+*(Note: On boot, the backend automatically runs migrations and seeds the database with realistic investor data if no records exist.)*
+
+### 3. Frontend (Vercel)
+- Set **Root Directory** to `frontend`.
+- Set the following environment variable:
+  * `NEXT_PUBLIC_API_URL`: `https://your-backend.onrender.com/api/v1` (URL of your deployed Render backend API)
+
+---
+
 ## 🔑 Demo Credentials
 
 Use the following credentials to evaluate the platform:
@@ -156,4 +183,5 @@ Click the links below to view detailed design artifacts:
 - [Database & ER Design](docs/Database.md) — Table fields and keys mapping
 - [AI Workflow & Tool Execution](docs/AI-Workflow.md) — Gemini function calling mechanics
 - [PostgreSQL Migration Guide](docs/Postgres_Migration.md) — Switching database engine
+- [Cloud Deployment Checklist](docs/Deployment_Checklist.md) — Step-by-step Render/Vercel guide
 - [Hackathon Demo Pitch Script](docs/Demo-Script.md) — 5-minute pitch demo scenarios
