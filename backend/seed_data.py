@@ -452,10 +452,28 @@ async def seed():
         )
         session.add(ticket1)
         await session.flush()
-
+        
         # Commit everything
         await session.commit()
         print("Database successfully seeded with realistic mutual fund datasets.")
+
+async def seed_if_empty():
+    from src.core.database import async_session_factory
+    from src.investors.models import Investor
+    from sqlalchemy import select
+    
+    # 0. Ensure target database exists in Postgres
+    await ensure_database_exists()
+    
+    # Check if there is already an investor in the database
+    async with async_session_factory() as session:
+        result = await session.execute(select(Investor).limit(1))
+        if result.scalar_one_or_none() is not None:
+            print("Database already contains data. Skipping auto-seeding.")
+            return
+            
+    print("Database is empty. Triggers auto-seeding process...")
+    await seed()
 
 if __name__ == "__main__":
     # Setup loop and execute

@@ -50,6 +50,14 @@ async def lifespan(app: FastAPI):
     await init_db()
     logger.info("Database initialized successfully.")
     
+    # Auto-seed if database is empty
+    try:
+        from seed_data import seed_if_empty
+        logger.info("Checking if database needs auto-seeding...")
+        await seed_if_empty()
+    except Exception as e:
+        logger.error(f"Auto-seeding check failed: {e}")
+    
     yield
     
     # Shutdown actions
